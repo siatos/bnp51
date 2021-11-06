@@ -17,7 +17,7 @@ def parse_input():
 def read_from_file_to_create_dict(fname):
     """
     Read data from an input file that has rows of 0/1's space delimited
-    and return a dictionary of nodes (each key is a node) and the total number
+    and return a dictionary of nodes (each key is a node) and the number of nodes (rows in file read)
     :param
          fname: input filename
     :return:
@@ -38,12 +38,12 @@ def read_from_file_to_create_dict(fname):
 def create_DI_DO(nodes_dict):
     """
     create a dictionary to hold degree in/out for each node
-    DI (Degree In:  number of edges that come into  the node i.e. columns in the adjacency matrix
-    DO (Degree Out: number of edges that go out from the node i.e rows in the adjacency matrix
+    DI (Degree In:  number of edges that come into  the node i.e. columns in the adjacency matrix)
+    DO (Degree Out: number of edges that go out from the node i.e rows in the adjacency matrix)
     :param
          node_dict:
     :return:
-        DI_DO_dict: dictionary that  holds DI/Do for each node (key of dict)
+        DI_DO_dict: dictionary that  holds DI/Do for each node (keys of dict)
     """
     di_do = {}
     # fill DI values
