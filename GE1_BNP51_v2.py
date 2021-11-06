@@ -76,7 +76,7 @@ if __name__ == '__main__':
     DI_DO =   create_DI_DO(gene_dict) # create a dictionary to hold degree in/out for each node
 
     print("================================================")
-    print("Going In(GI) and Going Out(GO) values for each node")
+    print("Going In(or D(egree) I(n)) and Going Out(or D(egree) O(ut)) values for each node")
     print(DI_DO)
     print("================================================")
 
