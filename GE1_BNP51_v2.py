@@ -105,7 +105,9 @@ if __name__ == '__main__':
         print("==== Finding shortest path from node {} ====".format(nd1))
         for nd2 in G.nodes:
             if nd1 != nd2:
-                print("... to node {}: {}".format(nd2, nx.shortest_path(G, source=nd1, target=nd2)))
+                sp_list = nx.shortest_path(G, source=nd1, target=nd2)
+#                print("... to node {}: {}".format(nd2, nx.shortest_path(G, source=nd1, target=nd2)))
+                print("... to node {}: {}:-- SP len: {}".format(nd2, sp_list, len(sp_list)-1))
     print("================================================")
 
 
