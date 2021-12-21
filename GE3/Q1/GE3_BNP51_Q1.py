@@ -74,7 +74,7 @@ def get_betweenness_centrality(Grph):
 
 def take_second(elem):
     """
-    used to return the second element of an element tuple
+    used to return the second element of an (element) tuple
     i could not make lambdha expression work properly, sad ...
     """
     return elem[1]
