@@ -60,10 +60,10 @@ if __name__ == '__main__':
         G.add_edge(0,x)
     for x in range(6,11):
         G.add_edge(5, x)
-    for x in range(12,21):
+    for x in range(12,20):
         G.add_edge(11, x)
     G.add_edge(0, 5)
-    #G.add_edge(11, 5)
+    G.add_edge(11, 5)
 
 
     for c in sorted(nx.connected_components(G), key=len, reverse=True): 
