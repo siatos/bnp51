@@ -53,24 +53,33 @@ def create_gene_dict(node_list, adj_matrix):
 
 def get_nodes_by_degree(Grph, n):
     """
-    return a list of nodes of size n in acsending order based on degree sizes 
+    return a list of nodes depending on degree size in descending order 
     :param
          Grph: graph 
          n: size of list 
     :return:
-        degree_list: list of nodes sorted on their degree ascending order 
+        degree_list: list of nodes sorted on their degree descending order 
     """
     degree_list = list(Grph.degree())
-    sorted_list = sorted(degree_list, key=take_second)
-    print("Degree for each node: {}".format(sorted_list))
-    print("")
+    sorted_list = sorted(degree_list, key=take_second, reverse=True)
+    #print("Degree for each node: {}".format(sorted_list))
     print("=============================")
-    print("The highest {} elements of list (in ascending order) are : {}".format(n, str(sorted_list[-n:])))
-    return  sorted_list[-n:]
+    print("The highest {} elements of list (in descending order) are : {}".format(n, str(sorted_list[:n])))
+    return  sorted_list[:n]
 
-def get_betweenness_centrality(Grph):
-    #return nx.algorithms.centrality.betweenness_centrality(Grph)
-    return sorted(nx.betweenness_centrality(Grph).items(), key=lambda item: item[1])
+def get_betweenness_centrality(Grph, n):
+    """
+    return a list of nodes depending on betweenes centrality in descending order 
+    :param
+         Grph: graph 
+         n: size of list 
+    :return:
+        degree_list: list of nodes sorted on their betweeness centrality in descending order 
+    """
+    S = sorted(nx.betweenness_centrality(Grph).items(), key=lambda item: item[1], reverse=True)
+    print("=============================")
+    print("The highest {} elements of list (betweeness centrality in descending order) are : {}".format(n, str(S[:n])))
+    return S[:n]
 
 def take_second(elem):
     """
@@ -85,7 +94,7 @@ if __name__ == '__main__':
     input_nodes = str(ARGS.nf)
     input_xcell = str(ARGS.xf)
     nodes_list = read_xcel_file(str(ARGS.nf))
-    #print(nodes_list)
+    # print("Read {} nodes".format(len(nodes_list)))
     adj_list   = read_xcel_file(str(ARGS.xf))
     # print(adj_list)
     gene_dict, no_of_nodes = create_gene_dict(nodes_list, adj_list)
@@ -98,6 +107,8 @@ if __name__ == '__main__':
     for node in gene_dict:
         #print("Adding Node: {}".format(node))
         G.add_node(str(node))
+
+    print("graph created with {} nodes".format(G.number_of_nodes()))
 
     # add the edges
     for node in gene_dict:
@@ -113,11 +124,11 @@ if __name__ == '__main__':
     #nx.draw(G)
 
 
-    print("Find Degree for each node ...")
-    get_nodes_by_degree(G, 5)
+    print("Find Degree for each node ... show the highest 5 nodes")
+    get_nodes_by_degree(G, 10)
 
     print("Find betweeness centrality ...")
-    print(get_betweenness_centrality(G))
+    get_betweenness_centrality(G, 10)
 
     #print("Find Degree for each node ...")
     #degree_list = list(G.degree())
@@ -126,10 +137,16 @@ if __name__ == '__main__':
     #print("============================")
     #print("The highest 5 elements of list (in ascending order) are : " + str(sorted_list[-5:]))
 
+
+    largest_cc = max(nx.connected_components(G), key=len)
+    S = G.subgraph(largest_cc).copy()
+    print("Number of nodes for connected subgraph component S: {}".format(S.number_of_nodes()))
+    print(S)
+
     for c in sorted(nx.connected_components(G), key=len, reverse=True): 
         S = G.subgraph(c).copy()
-        print(S)
-        print("Number of nodes for connected subgraph component S: {}".format(S.number_of_nodes()))
+        print(len(S))
+        #print("Number of nodes for connected subgraph component S: {}".format(S.number_of_nodes()))
 
 
     print("Starting to plot ...")
