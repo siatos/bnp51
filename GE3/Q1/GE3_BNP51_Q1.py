@@ -4,14 +4,16 @@ import matplotlib.pyplot as plt
 import xlrd
 import pandas as pd
 import itertools
+import logging
+import os
 
 def parse_input():
     """
     Parse the command line ARGUMENTS
     """
     parser = ArgumentParser()
-    parser.add_argument('--xf', action='store', help='input excel file)')
-    parser.add_argument('--nf', action='store', help='input nodes file)')
+    parser.add_argument('-m', '--matrixfile', action='store', help='input matrix excel file')
+    parser.add_argument('-n', '--nodesfile', action='store', help='input nodes excel file')
 
     arguments = parser.parse_args()
 
@@ -23,6 +25,17 @@ def read_xcel_file(fname):
     value_list = df.values.tolist()
     #value_dict = df.to_dict()
     return value_list
+
+def log2file(logline, loglevel):
+    if loglevel.lower() == 'debug':
+       logging.debug(logline)
+    elif loglevel.lower() == 'error':  
+       logging.error(logline)
+    elif loglevel.lower() == 'info':  
+       logging.info(logline)
+    else:
+        logging.info('incoherent loglevel: ' + logline)
+
 
 def create_gene_dict(node_list, adj_matrix):
     """
@@ -90,12 +103,24 @@ def take_second(elem):
 
 
 if __name__ == '__main__':
+    LOGFILE="log.txt"
+    # remove possibly existing log file
+    if os.path.isfile(LOGFILE):
+        print("Removing file {}".format(LOGFILE))
+        os.remove(LOGFILE)
+    else:    # if there is no logfile show an error and continue ##
+        print("Error: {} file not found, ...ok".format(LOGFILE))
+    
+    logging.basicConfig(filename=LOGFILE, level=logging.INFO, format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+    logging.info('Started')
+
     ARGS = parse_input()
-    input_nodes = str(ARGS.nf)
-    input_xcell = str(ARGS.xf)
-    nodes_list = read_xcel_file(str(ARGS.nf))
+    #input_nodes = str(ARGS.n)
+    #input_xcell = str(ARGS.m)
+
+    nodes_list = read_xcel_file(str(ARGS.nodesfile))
     # print("Read {} nodes".format(len(nodes_list)))
-    adj_list   = read_xcel_file(str(ARGS.xf))
+    adj_list   = read_xcel_file(str(ARGS.matrixfile))
     # print(adj_list)
     gene_dict, no_of_nodes = create_gene_dict(nodes_list, adj_list)
     # print(gene_dict)
@@ -138,17 +163,23 @@ if __name__ == '__main__':
     #print("The highest 5 elements of list (in ascending order) are : " + str(sorted_list[-5:]))
 
 
-    largest_cc = max(nx.connected_components(G), key=len)
-    S = G.subgraph(largest_cc).copy()
-    print("Number of nodes for connected subgraph component S: {}".format(S.number_of_nodes()))
-    print(S)
+    #largest_cc = max(nx.connected_components(G), key=len)
+    #S = G.subgraph(largest_cc).copy()
+    #print("Number of nodes for connected subgraph component S: {}".format(S.number_of_nodes()))
+    #print(S)
 
+    log2file('Logging all nodes for each connected component', 'info')
+    
     for c in sorted(nx.connected_components(G), key=len, reverse=True): 
         S = G.subgraph(c).copy()
-        print(len(S))
-        #print("Number of nodes for connected subgraph component S: {}".format(S.number_of_nodes()))
+        logline = print(list(S.nodes()))
+        log2file(logline, 'info')
+        logline = print("Number of nodes for connected subgraph component S: {}".format(S.number_of_nodes()))
+        log2file(logline, 'info')
 
 
     print("Starting to plot ...")
     plt.axis("off")
     plt.show()
+    logging.info('Finished')
+
