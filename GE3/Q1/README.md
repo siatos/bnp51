@@ -1,4 +1,7 @@
-Script for solving Question 1
-(Q1) for GE3
-Required xlrd, pandas, openpyxl
-(pip3 install xlrd, pandas, openpyxl)
+Script GE3_BNP51_Q1.py for solving Q1 of GE3
+- Required python packages: xlrd, pandas, openpyxl (use: 'pip3 install xlrd, pandas, openpyxl')
+- usage call: "python ./GE3_BNP51_Q1.py -n ppi_matrix.xlsx -m ppi_nodes.xlsx
+    - ppi_matrix.xlsx basically the adjacency matrix of the network
+    - ppi_nodes.xlsx  node names of the network
+- script plots an undirected graph (i.e. when adding edges direction is of no importance)
+
