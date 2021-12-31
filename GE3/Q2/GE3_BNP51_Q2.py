@@ -1,3 +1,8 @@
+"""
+Script to solve Q2 for GE3
+Usage: python GE3_BNP51_Q2.py --nodes <nodes>
+"""
+
 from argparse import ArgumentParser
 import networkx as nx
 import numpy as np
