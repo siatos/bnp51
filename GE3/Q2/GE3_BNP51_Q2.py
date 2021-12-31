@@ -1,5 +1,6 @@
 from argparse import ArgumentParser
 import networkx as nx
+import numpy as np
 import matplotlib.pyplot as plt
 #import xlrd
 #import pandas as pd
@@ -8,6 +9,8 @@ from constants import SIZE_OF_NODESLIST, \
                       KAPA, \
                       PROB, \
                       NEW_EDGES
+
+
 
 def parse_input():
     """
@@ -20,10 +23,65 @@ def parse_input():
 
     return arguments
 
-#def plot_degree_dist(G):
-#    return [G.degree(n) for n in G.nodes()]
-#    #plt.hist(degrees)
-#    #plt.show()
+def plot_graph_and_distribution(Grph1, Grph2):
+    degree_sequence1 = sorted([d for n, d in Grph1.degree()], reverse=True)
+    dmax1 = max(degree_sequence1)
+
+    degree_sequence2 = sorted([d for n, d in Grph2.degree()], reverse=True)
+    dmax2 = max(degree_sequence2)
+
+    fig = plt.figure("Compare small-world & B-A scale-free graphs", figsize=(12, 14))
+    # Create a gridspec for adding subplots of different sizes
+    axgrid = fig.add_gridspec(5, 8)
+
+    # Graph 1
+    ax0 = fig.add_subplot(axgrid[0:3, :4])
+    Gcc1 = Grph1.subgraph(sorted(nx.connected_components(Grph1), key=len, reverse=True)[0])
+    pos = nx.spring_layout(Gcc1, seed=10396953)
+    nx.draw_networkx_nodes(Gcc1, pos, ax=ax0, node_size=20)
+    nx.draw_networkx_edges(Gcc1, pos, ax=ax0, alpha=0.4)
+    ax0.set_title("Connected components of Small-World")
+    ax0.set_axis_off()
+
+    # Graph 2
+    ax0 = fig.add_subplot(axgrid[0:3, 4:])
+    Gcc2 = Grph2.subgraph(sorted(nx.connected_components(Grph2), key=len, reverse=True)[0])
+    pos = nx.spring_layout(Gcc2, seed=10396953)
+    nx.draw_networkx_nodes(Gcc2, pos, ax=ax0, node_size=20)
+    nx.draw_networkx_edges(Gcc2, pos, ax=ax0, alpha=0.4)
+    ax0.set_title("Connected components of Scale-Free BA")
+    ax0.set_axis_off()
+
+    # Graph 1
+    ax1 = fig.add_subplot(axgrid[3:, :2])
+    ax1.plot(degree_sequence1, "b-", marker="o")
+    ax1.set_title("Degree Rank Plot")
+    ax1.set_ylabel("Degree")
+    ax1.set_xlabel("Rank")
+
+    ax2 = fig.add_subplot(axgrid[3:, 2:4])
+    ax2.bar(*np.unique(degree_sequence1, return_counts=True))
+    ax2.set_title("Degree histogram")
+    ax2.set_xlabel("Degree")
+    ax2.set_ylabel("# of Nodes")
+
+    # Graph 2 
+    ax1 = fig.add_subplot(axgrid[3:, 4:6])
+    ax1.plot(degree_sequence2, "b-", marker="o")
+    ax1.set_title("Degree Rank Plot")
+    ax1.set_ylabel("Degree")
+    ax1.set_xlabel("Rank")
+
+    ax2 = fig.add_subplot(axgrid[3:, 6:8])
+    ax2.bar(*np.unique(degree_sequence2, return_counts=True))
+    ax2.set_title("Degree histogram")
+    ax2.set_xlabel("Degree")
+    ax2.set_ylabel("# of Nodes")
+
+    fig.tight_layout()
+    plt.show()
+
+
 
 def take_second(elem):
     """
@@ -31,16 +89,6 @@ def take_second(elem):
     i could not make lambdha expression work properly, sad ...
     """
     return elem[1]
-
-#def plot_distribution(Grph):
-#
-#    degree_freq = nx.degree_histogram(Grph)
-#    degrees = range(len(degree_freq))
-#    plt.figure(figsize=(12, 8)) 
-#    plt.loglog(degrees[3:], degree_freq[3:],'go-') 
-#    plt.xlabel('Degree')
-#    plt.ylabel('Frequency')
-#    plt.show()
 
 
 def get_betweenness_centrality(Grph, n):
@@ -96,17 +144,18 @@ if __name__ == '__main__':
 
 
 
-    for k, v in GSF_layout.items():
-    # Shift the x values of every GSF node by 2.1 to the right
-    # number depends on the layout
-        v[0] = v[0] + 2.1
+#    for k, v in GSF_layout.items():
+#    # Shift the x values of every GSF node by 2.1 to the right
+#    # number depends on the layout
+#        v[0] = v[0] + 2.1
+##
+##    nx.draw(GSW, GSW_layout, node_size=int(NODES))
+#    nx.draw_networkx_labels(GSW, GSW_layout, labels={n: n for n in GSW})
+#    #
+#    nx.draw(GSF, GSF_layout, node_size=int(NODES))
+#    nx.draw_networkx_labels(GSF, GSF_layout, labels={n: n for n in GSF})
+#    plt.show() # display
 
-    nx.draw(GSW, GSW_layout, node_size=int(NODES))
-    nx.draw_networkx_labels(GSW, GSW_layout, labels={n: n for n in GSW})
-    #
-    nx.draw(GSF, GSF_layout, node_size=int(NODES))
-    nx.draw_networkx_labels(GSF, GSF_layout, labels={n: n for n in GSF})
-    #plot_distribution(GSW)
-    plt.show() # display
-
+    plot_graph_and_distribution(GSW, GSF)
+    #plot_graph_and_distribution(GSF)
 
