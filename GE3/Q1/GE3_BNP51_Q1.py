@@ -2,15 +2,13 @@
 Script to solve Q1 for GE3
 Usage: python GE3_BNP51_Q1.py -m ppi_matrix.xlsx -n ppi_names.xlsx
 """
-from constants import LOGFILE, SIZE_OF_NODESLIST
 from argparse import ArgumentParser
 import os
 import logging
 import networkx as nx
 import matplotlib.pyplot as plt
-#import xlrd
 import pandas as pd
-#import itertools
+from constants import LOGFILE, SIZE_OF_NODESLIST
 
 def parse_input():
     """
@@ -152,29 +150,29 @@ if __name__ == '__main__':
 
     # add the edges
     for node in gene_dict:
-       # for each node create a list with the pos of nonzero elements of each row
-       nonzero_vals = [i for i,x in enumerate(gene_dict[node]) if x == 1]
-       end_nodes = []
-       #find end node from pos in the list
-       for pos in nonzero_vals:
-           end_node = 'Gene_'+ str(nodes_list[pos][0])
-           #print(end_node)
-           end_nodes.append(end_node)
-           #print("{} {}".format(nodes_list[pos][0], type(nodes_list[pos][0])))
-           #G.add_edge(node, end_node)
-       print("found for node {} following nodes {}".format(node, end_nodes))
-       for endnode in end_nodes:
-           #we re usning undirected graphs so direction is not important
-           if G.has_edge(node, endnode) or G.has_edge(endnode, node):
-               print("Edge from {} to {} exists no adding".format(node, endnode))
-           else:
-               print("Adding Edge from {} to {} ".format(node, endnode))
-               G.add_edge(node, endnode)
+        # for each node create a list with the pos of nonzero elements of each row
+        nonzero_vals = [i for i,x in enumerate(gene_dict[node]) if x == 1]
+        end_nodes = []
+        #find end node from pos in the list
+        for pos in nonzero_vals:
+            end_node = 'Gene_'+ str(nodes_list[pos][0])
+            #print(end_node)
+            end_nodes.append(end_node)
+            #print("{} {}".format(nodes_list[pos][0], type(nodes_list[pos][0])))
+            #G.add_edge(node, end_node)
+        print("found for node {} following nodes {}".format(node, end_nodes))
+        for endnode in end_nodes:
+            #we re usning undirected graphs so direction is not important
+            if G.has_edge(node, endnode) or G.has_edge(endnode, node):
+                print("Edge from {} to {} exists no adding".format(node, endnode))
+            else:
+                print("Adding Edge from {} to {} ".format(node, endnode))
+                G.add_edge(node, endnode)
 
 
 
-    nx.draw_circular(G, with_labels=True)
-    #nx.draw(G)
+    #nx.draw_circular(G, with_labels=True)
+    nx.draw(G, with_labels=True)
 
     print("============================ HIGHEST DEGREE NODES ===============================")
     print("Find Degree for each node ... show the highest {} nodes".format(SIZE_OF_NODESLIST))
