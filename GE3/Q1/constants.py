@@ -1,0 +1,2 @@
+LOGFILE = "log.txt"
+SIZE_OF_NODESLIST = 10
