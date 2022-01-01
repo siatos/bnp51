@@ -23,6 +23,39 @@ def parse_input():
 
     return arguments
 
+def plot_graphs(Grph1, Grph2, Grph3):
+
+    fig = plt.figure("Plot graphs", figsize=(9, 4))
+    # Create a gridspec for adding subplots of different sizes
+    axgrid = fig.add_gridspec(2, 8)
+
+    # Graph 1
+    ax0 = fig.add_subplot(axgrid[:, :2])
+    pos = nx.circular_layout(Grph1)
+    nx.draw_networkx_nodes(Grph1, pos, ax=ax0, node_size=20)
+    nx.draw_networkx_edges(Grph1, pos, ax=ax0, alpha=0.4)
+    ax0.set_title("Connected components of Graph 1")
+    ax0.set_axis_off()
+
+    # Graph 2
+    ax0 = fig.add_subplot(axgrid[:, 3:5])
+    pos = nx.circular_layout(Grph2)
+    nx.draw_networkx_nodes(Grph2, pos, ax=ax0, node_size=20)
+    nx.draw_networkx_edges(Grph2, pos, ax=ax0, alpha=0.4)
+    ax0.set_title("Connected components of Graph 2")
+    ax0.set_axis_off()
+
+    # Graph 3
+    ax0 = fig.add_subplot(axgrid[:, 6:8])
+    pos = nx.circular_layout(Grph3)
+    nx.draw_networkx_nodes(Grph3, pos, ax=ax0, node_size=20)
+    nx.draw_networkx_edges(Grph3, pos, ax=ax0, alpha=0.4)
+    ax0.set_title("Connected components of Graph 3")
+    ax0.set_axis_off()
+
+    fig.tight_layout()
+    plt.show()
+
 
 if __name__ == '__main__':
     ARGS = parse_input()
@@ -46,7 +79,8 @@ if __name__ == '__main__':
             G.add_edge(S1+S2, x)
         G.add_edge(S1+S2, S2)
 
-
+    # create a copy Grph1 of the original G
+    Grph1=G.copy()
     print("all nodes connected")
     for c in sorted(nx.connected_components(G), key=len, reverse=True):
         S = G.subgraph(c).copy()
@@ -59,6 +93,8 @@ if __name__ == '__main__':
         S = G.subgraph(c).copy()
         print(S)
         print("Number of nodes for connected subgraph component S: {}".format(S.number_of_nodes()))
+   # create a copy Grph1 of the original G
+    Grph2=G.copy()
 
     print("removing one more edge")
     G.remove_edge(0, S1)
@@ -67,5 +103,10 @@ if __name__ == '__main__':
         print(S)
         print("Number of nodes for connected subgraph component S: {}".format(S.number_of_nodes()))
 
-    nx.draw_circular(G, with_labels=True)
-    plt.show() # display
+    # create a copy Grph1 of the original G
+    Grph3=G.copy()
+
+    plot_graphs(Grph1, Grph2, Grph3)
+
+    #nx.draw_circular(G, with_labels=True)
+    #plt.show() # display
