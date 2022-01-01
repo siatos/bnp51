@@ -1,2 +1,2 @@
-Script for solving Questions of
+Scripts for solving Questions of
 GE3
