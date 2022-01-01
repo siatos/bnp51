@@ -61,50 +61,49 @@ if __name__ == '__main__':
     ARGS = parse_input()
     S1 = int(ARGS.size1)
     S2 = int(ARGS.size2)
-    Total_Nodes= 20
-
+    if (Total_Nodes - (S1+S2)) <= 0:
+        print("There are not enough nodes to assign to the 3rd subgraph - please assign S1 & s2 do that s1+s2 < Total_Nodes (= 20))")
+        exit(1)
+ 
     G=nx.Graph()
 
-    #G=nx.complete_multipartite_graph(int(S1), int(S2), int(S3))
-    print(G.edges())
     for x in range(1,S1):
         G.add_edge(0,x)
     G.add_edge(0, S1)
     for x in range(S1+1,S1+S2):
         G.add_edge(S1, x)
-    if (Total_Nodes - (S1+S2)) <= 0:
-        print("There are not enough nodes to assign to the 3rd subgraph - only two will be used)")
-    else:
-        for x in range(S1+S2+1, Total_Nodes):
-            G.add_edge(S1+S2, x)
-        G.add_edge(S1+S2, S2)
+    for x in range(S1+S2+1, Total_Nodes):
+        G.add_edge(S1+S2, x)
+    G.add_edge(S1+S2, S2)
 
     # create a copy Grph1 of the original G
     Grph1=G.copy()
-    print("all nodes connected")
+    print("========================================================================")
+    print("all nodes connected - there will be 1 connected component")
     for c in sorted(nx.connected_components(G), key=len, reverse=True):
         S = G.subgraph(c).copy()
         print(S)
-        print("Number of nodes for connected subgraph component S: {}".format(S.number_of_nodes()))
-
-    print("removing one edge")
+        print("Number of nodes for connected subgraph component: {}".format(S.number_of_nodes()))
+    print("========================================================================")
+    print("removing one edge - there will be 2 connected components")
     G.remove_edge(S1+S2, S2)
     for c in sorted(nx.connected_components(G), key=len, reverse=True):
         S = G.subgraph(c).copy()
         print(S)
-        print("Number of nodes for connected subgraph component S: {}".format(S.number_of_nodes()))
+        print("Number of nodes for connected subgraph component: {}".format(S.number_of_nodes()))
    # create a copy Grph1 of the original G
     Grph2=G.copy()
-
-    print("removing one more edge")
+    print("========================================================================")
+    print("removing one more edge - there will be 3 connected components")
     G.remove_edge(0, S1)
     for c in sorted(nx.connected_components(G), key=len, reverse=True):
         S = G.subgraph(c).copy()
         print(S)
-        print("Number of nodes for connected subgraph component S: {}".format(S.number_of_nodes()))
+        print("Number of nodes for connected subgraph component: {}".format(S.number_of_nodes()))
 
     # create a copy Grph1 of the original G
     Grph3=G.copy()
+    print("========================================================================")
 
     plot_graphs(Grph1, Grph2, Grph3)
 
