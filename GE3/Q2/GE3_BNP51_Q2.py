@@ -91,14 +91,12 @@ def plot_graph_and_distribution(Grph1, Grph2):
 def take_second(elem):
     """
     used to return the second element of an (element) tuple
-    i could not make lambdha expression work properly, sad ...
+    i could not make lambda expression work properly, sad ...
     """
     return elem[1]
 
 
 def get_betweenness_centrality(Grph, n):
-    #return nx.algorithms.centrality.betweenness_centrality(Grph)
-    #return sorted(nx.betweenness_centrality(Grph).items(), key=lambda x: x[1], reverse=True)
     SGrph = sorted(nx.betweenness_centrality(Grph).items(), key=lambda item: item[1], reverse=True)
     print("The highest {} elements of list (betweeness centrality in descending order) are : {}".format(n, str(SGrph[:n])))
     return SGrph[:n]
@@ -120,28 +118,31 @@ if __name__ == '__main__':
     GSF_layout = nx.circular_layout(GSF)
 
 
-    print("============================================================")
+    print("====================== small-world =========================")
     degree_list = list(GSW.degree())
     sorted_list = sorted(degree_list, key=take_second, reverse=True)
     print("Degree for each node of small-world: {}".format(sorted_list))
     print("============================================================")
     print("Find betweeness centrality for small-world network ...")
-    print(get_betweenness_centrality(GSW, SIZE_OF_NODESLIST))
+    get_betweenness_centrality(GSW, SIZE_OF_NODESLIST)
     print("============================================================")
+    print("")
+    print("==================== scale-free ============================")
     degree_list = list(GSF.degree())
     sorted_list = sorted(degree_list, key=take_second, reverse=True)
     print("Degree for each node of scale-free: {}".format(sorted_list))
     print("============================================================")
     print("Find betweeness centrality for scale-free network ...")
-    print(get_betweenness_centrality(GSF, SIZE_OF_NODESLIST))
+    get_betweenness_centrality(GSF, SIZE_OF_NODESLIST)
     print("============================================================")
-
-
+    print("")
+    print("Additional metrics for small-world")
     print('average path length: {}'.format(nx.average_shortest_path_length(GSW)))
     print('average diameter: {}'.format(nx.diameter(GSW)))
     G_cluster = sorted(list(nx.clustering(GSW).values()))
     print('average clustering coefficient: {}'.format(sum(G_cluster) / len(G_cluster)))
-
+    print("")
+    print("Additional metrics for scale-free")
     print('average path length: {}'.format(nx.average_shortest_path_length(GSF)))
     print('average diameter: {}'.format(nx.diameter(GSF)))
     G_cluster = sorted(list(nx.clustering(GSF).values()))
