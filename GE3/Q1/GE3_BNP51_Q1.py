@@ -68,9 +68,6 @@ def create_gene_dict(node_list, adj_matrix):
     return_dict = {}
     count = 0
 
-    print("here")
-    print(node_list)
-
     # iterate through the two lists simultaneously
     for (gene, row) in zip(node_list, adj_matrix):
         key = "Gene_" + str(gene[0]) #each member of node_list is a list
