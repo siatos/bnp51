@@ -121,8 +121,8 @@ if __name__ == '__main__':
     if os.path.isfile(LOGFILE):
         print("Removing file {}".format(LOGFILE))
         os.remove(LOGFILE)
-    else:    # if there is no logfile show an error and continue ##
-        print("Error: {} file not found, ...ok".format(LOGFILE))
+    else:    # if there is no logfile display it and continue 
+        print("{} file not found, ... it will be created, ok".format(LOGFILE))
 
     logging.basicConfig(filename=LOGFILE, level=logging.INFO, format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
     logging.info('Started')
@@ -143,7 +143,7 @@ if __name__ == '__main__':
 
     # add the nodes, all nodes will be in the form Gene_n, where n some integer
     for node in gene_dict:
-        print("Adding Node: {}".format(node))
+        # print("Adding Node: {}".format(node))
         G.add_node(str(node))
 
     print("graph created with {} nodes".format(G.number_of_nodes()))
@@ -153,14 +153,14 @@ if __name__ == '__main__':
         # for each node create a list with the pos of nonzero elements of each row
         nonzero_vals = [i for i,x in enumerate(gene_dict[node]) if x == 1]
         end_nodes = []
-        #find end node from pos in the list
+        # find end node from pos in the list
         for pos in nonzero_vals:
             end_node = 'Gene_'+ str(nodes_list[pos][0])
             #print(end_node)
             end_nodes.append(end_node)
             #print("{} {}".format(nodes_list[pos][0], type(nodes_list[pos][0])))
             #G.add_edge(node, end_node)
-        print("found for node {} following nodes {}".format(node, end_nodes))
+        # print("found for node {} following nodes {}".format(node, end_nodes))
         for endnode in end_nodes:
             #we re usning undirected graphs so direction is not important
             if G.has_edge(node, endnode) or G.has_edge(endnode, node):
