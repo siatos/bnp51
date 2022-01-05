@@ -3,7 +3,7 @@ Script GE3_BNP51_Q2.py to solve Q2 of GE3
 - usage call: "python  ./GE3_BNP51_Q2.py --nodes <number_of_nodes>"
     - number_of_nodes = the number of nodes each network will have 
 
-python packages required: matplot lib, numpy, networkx
+python packages required: matplotlib, numpy, networkx
 
 Both networks are drawn side-by-side in one page for comparison.
 - On the left side the small-world network
