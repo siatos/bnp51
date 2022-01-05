@@ -6,3 +6,4 @@ the rest to the 3rd subgraph
 
 python packages required: matplotlib, networkx
     
+The idea is to create 3 distinct (sub)graphs and then connect these with a minimum of 2 edges to create a graph that has a single connected component but can be easily dismantled into 3 distinct connected components by removing appropriate edges.
