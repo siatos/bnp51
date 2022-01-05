@@ -159,7 +159,7 @@ if __name__ == '__main__':
             #G.add_edge(node, end_node)
         # print("found for node {} following nodes {}".format(node, end_nodes))
         for endnode in end_nodes:
-            #we re usning undirected graphs so direction is not important
+            #we are using undirected graphs so direction is not important
             if G.has_edge(node, endnode) or G.has_edge(endnode, node):
                 print("Edge from {} to {} exists no adding".format(node, endnode))
             else:
