@@ -4,4 +4,5 @@ Script GE3_BNP51_Q3.py to solve Q3 of GE3
     subgraphs. As long as s1+s2 < 20 program will assign
 the rest to the 3rd subgraph
 
+python packages required: matplotlib, networkx
     
