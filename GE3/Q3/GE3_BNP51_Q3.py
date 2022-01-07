@@ -91,7 +91,7 @@ if __name__ == '__main__':
         S = G.subgraph(c).copy()
         print(S)
         print("Number of nodes for connected subgraph component: {}".format(S.number_of_nodes()))
-   # create a copy Grph1 of the original G
+   # create a copy Grph2 of the original G
     Grph2=G.copy()
     print("========================================================================")
     print("removing one more edge - there will be 3 connected components")
@@ -101,7 +101,7 @@ if __name__ == '__main__':
         print(S)
         print("Number of nodes for connected subgraph component: {}".format(S.number_of_nodes()))
 
-    # create a copy Grph1 of the original G
+    # create a copy Grph3 of the original G
     Grph3=G.copy()
     print("========================================================================")
 
