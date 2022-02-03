@@ -51,9 +51,9 @@ def create_gene_dict(node_list, adj_matrix):
     """
     Read data from a list of nodes and its adjacency matrix (represented here as a list of rows
     and return a dictionary of nodes (each key is a node) and the number of nodes (a row having 1's and/or 0's )
-    The dict should have a form like:
+    The dict will have a form like:
       Gene_x:[0, 1, ..., 1] 300 elements in each list. There will be 300 keys (genes) in the dictionary.
-      To create the dictionary iterate through the two lists  created form tables (matrix and names) at the same time.
+      To create the dictionary iterate through the two lists  created from tables (matrix and names) at the same time.
       There is no checking for incosistencies. Data are assumed to be correct.
     Essentialy this is the adjacency matrix of the graph  a 300x300 square matrix in a slightly different format
     :param
