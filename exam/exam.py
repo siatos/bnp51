@@ -2,7 +2,6 @@ from argparse import ArgumentParser
 import networkx as nx
 import matplotlib.pyplot as plt
 
-
 def parse_input():
     """
     Parse the command line ARGUMENTS
